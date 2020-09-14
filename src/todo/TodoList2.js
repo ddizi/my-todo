@@ -6,7 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import AddTodo from "./AddTodo";
 import axios from 'axios'; 
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 
 class TodoList2 extends Component {
 
