@@ -3,9 +3,13 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 import Checkbox from '@material-ui/core/Checkbox';
 import AddTodo from "./AddTodo";
 import axios from 'axios'; 
+import Test from './TodoInfo'
 // import { makeStyles } from '@material-ui/core/styles';
 
 class TodoList2 extends Component {
@@ -32,13 +36,13 @@ class TodoList2 extends Component {
   loadingData = async () => { 
     try { const response = await axios.get( 
      //  'https://jsonplaceholder.typicode.com/todos/1' 
-      'http://13.124.83.214:5000/api/todo' 
+      'http://3.35.89.32:5000/api/todo' 
       ); 
       this.setState({ 
         // boards: 'test' 
         contents: response.data, 
        }); 
-       console.log(this.state.contents[0]._id);
+      //  console.log(this.state.contents[0]._id);
      } catch (e) { 
        console.log(e);
       } }; 
@@ -74,6 +78,25 @@ class TodoList2 extends Component {
       this.setState({checked : newChecked});
     };
 
+    const handleDelete = (value) => () => {
+      const delId = value + 1;
+      console.log(delId);
+      var _contents = Array.from(this.state.contents);
+      var i=0;
+      while(i<_contents.length)
+      {
+        if(_contents[i].id === delId)
+        {
+          _contents.splice(i,1);
+          break;
+        }
+        i = i + 1;
+      }
+      this.setState({
+        contents:_contents
+      });
+    };   
+
     return (
       <div>
         {/* <List className={classes.root}> */}
@@ -81,7 +104,7 @@ class TodoList2 extends Component {
           {this.state.contents.map((value,i) => {
             const labelId = `checkbox-list-label-${i}`;
     
-            console.log(value.task);
+            // console.log(value.task);
     
     
             return (
@@ -96,6 +119,16 @@ class TodoList2 extends Component {
                   />
                 </ListItemIcon>
                 <ListItemText id={labelId} primary={value.task} />
+                <ListItemSecondaryAction>
+                    <IconButton 
+                      color="primary" 
+                      edge="end" 
+                      aria-label="delete" 
+                      onClick={handleDelete(i)}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                </ListItemSecondaryAction>
               </ListItem>
             );
           })}
@@ -111,6 +144,7 @@ class TodoList2 extends Component {
               this.setState({contents:_contents});
             }.bind(this)}>
         </AddTodo>
+        <Test></Test>
       </div>
     );
   }
