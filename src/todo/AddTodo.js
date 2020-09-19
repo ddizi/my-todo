@@ -36,9 +36,9 @@ class AddTodo extends Component {
     axios.post('http://3.35.89.32:5000/api/create', formData)
     .then((response) => {
     // console.log(response.data);
-    // this.setState({
-    //   task: ""
-    // })
+    this.setState({
+      task: ""
+    })
     // this.props.stateRefresh();
     });
     
