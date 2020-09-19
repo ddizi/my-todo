@@ -9,8 +9,6 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Checkbox from '@material-ui/core/Checkbox';
 import AddTodo from "./AddTodo";
 import axios from 'axios'; 
-import Test from './TodoInfo'
-// import { makeStyles } from '@material-ui/core/styles';
 
 class TodoList2 extends Component {
 
@@ -22,48 +20,42 @@ class TodoList2 extends Component {
       contents: [],
     };
   }
-  //const [checked, setChecked] = React.useState([0]);
-  // const [max_content_id, setMaxContentId] = React.useState(3);
-  // const [contents,setContents] = React.useState( [
-  //   { id: 0, done: true, task: "공부하기" },
-  //   { id: 1, done: false, task: "놀기" },
-  //   { id: 2, done: false, task: "밥먹기" },
-  // ]);
-
-  // const [contents,setContents] = React.useState([]);
-
-  
+    
   loadingData = async () => { 
     try { const response = await axios.get( 
      //  'https://jsonplaceholder.typicode.com/todos/1' 
       'http://3.35.89.32:5000/api/todo' 
       ); 
       this.setState({ 
-        // boards: 'test' 
-        contents: response.data, 
+         contents: response.data, 
        }); 
-      //  console.log(this.state.contents[0]._id);
-     } catch (e) { 
+      } catch (e) { 
        console.log(e);
-      } }; 
+      } 
+  }; 
       
    //마운트 될때 실행 
-   componentDidMount() { 
+  componentDidMount() { 
      const { loadingData } = this; 
      loadingData(); 
-   }  
+  }
+
+  deleteTodo(_id) {
+    //서버로 등록
+    const formData = new URLSearchParams();
+    formData.append('id',_id);
+
+    axios.post('http://3.35.89.32:5000/api/delete', formData)
+    .then((response) => {
+    // console.log(response.data);
+    // this.setState({
+    //   task: ""
+    // })
+    // this.props.stateRefresh();
+    });
+  }
 
   render() {
-
-    // const useStyles = makeStyles((theme) => ({
-    //   root: {
-    //     width: '100%',
-    //     maxWidth: 360,
-    //     backgroundColor: theme.palette.background.paper,
-    //   },
-    // }));
-  
-    // const classes = useStyles();
 
     const handleToggle = (value) => () => {
       const currentIndex = this.state.checked.indexOf(value);
@@ -79,19 +71,18 @@ class TodoList2 extends Component {
     };
 
     const handleDelete = (value) => () => {
-      const delId = value + 1;
-      console.log(delId);
       var _contents = Array.from(this.state.contents);
       var i=0;
       while(i<_contents.length)
       {
-        if(_contents[i].id === delId)
+        if(_contents[i].id === value)
         {
           _contents.splice(i,1);
           break;
         }
         i = i + 1;
       }
+      this.deleteTodo(value)
       this.setState({
         contents:_contents
       });
@@ -99,16 +90,12 @@ class TodoList2 extends Component {
 
     return (
       <div>
-        {/* <List className={classes.root}> */}
         <List>
           {this.state.contents.map((value,i) => {
             const labelId = `checkbox-list-label-${i}`;
-    
-            // console.log(value.task);
-    
-    
+       
             return (
-              <ListItem key={i} role={undefined} dense button onClick={handleToggle(i)}>
+              <ListItem key={value.id} role={undefined} dense button onClick={handleToggle(i)}>
                 <ListItemIcon>
                   <Checkbox
                     edge="start"
@@ -124,7 +111,7 @@ class TodoList2 extends Component {
                       color="primary" 
                       edge="end" 
                       aria-label="delete" 
-                      onClick={handleDelete(i)}
+                      onClick={handleDelete(value.id)}
                     >
                       <DeleteIcon />
                     </IconButton>
@@ -144,7 +131,6 @@ class TodoList2 extends Component {
               this.setState({contents:_contents});
             }.bind(this)}>
         </AddTodo>
-        <Test></Test>
       </div>
     );
   }
