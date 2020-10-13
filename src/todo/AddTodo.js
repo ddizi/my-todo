@@ -64,7 +64,7 @@ class AddTodo extends Component {
           </IconButton>
           <TextField 
             id="todoInput" 
-            label="새로운 TODO 등록" 
+            label="NEW TODO ADD" 
             variant="outlined" 
             name="task" 
             value={this.state.task}
