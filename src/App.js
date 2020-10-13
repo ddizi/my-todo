@@ -5,6 +5,16 @@ import HeaderApp from './todo/HeaderApp';
 import Container from '@material-ui/core/Container';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: { id: "ruroo@naver.com", 
+              name: "손기섭"
+            },
+    };
+  }
+  
   render() {
     return (
     <Container maxWidth="sm">

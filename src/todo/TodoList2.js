@@ -25,7 +25,7 @@ class TodoList2 extends Component {
     try { const response = await axios.get( 
      //  'https://jsonplaceholder.typicode.com/todos/1' 
       'http://3.35.89.32:5000/api/todo' 
-      ); 
+     ); 
       this.setState({ 
          contents: response.data, 
        }); 

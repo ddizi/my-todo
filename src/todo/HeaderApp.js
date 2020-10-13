@@ -34,8 +34,6 @@ export default function MenuAppBar() {
   const curDate = new Date()
   const date = curDate.getFullYear() + '-' + (curDate.getMonth() + 1) + '-' + curDate.getDate();
   
-  //alert(today);
-
   const handleChange = (event) => {
     setAuth(event.target.checked);
   };
